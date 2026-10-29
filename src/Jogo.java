@@ -46,9 +46,12 @@ public class Jogo {
         jogador1.substituirCarta(indice1, carta2);
         jogador2.substituirCarta(indice2, carta1);
 
-        System.out.println(
-            "Regra Swap: uma carta foi trocada entre os jogadores."
-        );
+        System.out.println("Regra Swap: cartas trocadas!");
+        System.out.println("Carta que o Jogador 1 recebeu:");
+        System.out.println(carta2);
+
+        System.out.println("Carta que o Jogador 2 recebeu:");
+        System.out.println(carta1);
     }
 
     public void iniciar() {
@@ -96,7 +99,7 @@ public class Jogo {
                 }
             }
 
-            // Regra Order: jogar sempre a primeira carta da mao.
+            
             Carta carta = atual.jogarCarta(0);
 
             tabuleiro.colocarCarta(linha, coluna, carta, atual);
@@ -147,7 +150,7 @@ public class Jogo {
 
         int iguais = 0;
 
-        // Conta quantas bordas iguais existem ao redor da carta.
+        
         if (ehIgual(linha - 1, coluna, atual,
                 carta.getCima(), 1)) {
             iguais++;
@@ -168,22 +171,21 @@ public class Jogo {
             iguais++;
         }
 
-        // Verifica a carta que esta acima.
         verificarCaptura(
             linha - 1, coluna, atual, carta.getCima(), 1, iguais
         );
 
-        // Verifica a carta que esta abaixo.
+     
         verificarCaptura(
             linha + 1, coluna, atual, carta.getBaixo(), 0, iguais
         );
 
-        // Verifica a carta que esta a esquerda.
+      
         verificarCaptura(
             linha, coluna - 1, atual, carta.getEsquerda(), 3, iguais
         );
 
-        // Verifica a carta que esta a direita.
+        
         verificarCaptura(
             linha, coluna + 1, atual, carta.getDireita(), 2, iguais
         );
@@ -226,12 +228,7 @@ public class Jogo {
 
                 boolean maior = valorNovo > valorVizinho;
                 boolean mesmaBorda = valorNovo == valorVizinho;
-                System.out.println("Posicao: " + linha + ", " + coluna);
-                System.out.println("Valor novo: " + valorNovo);
-                System.out.println("Valor vizinho: " + valorVizinho);
-                System.out.println("Iguais: " + iguais);
-                System.out.println("Maior: " + maior);
-                System.out.println("Mesma borda: " + mesmaBorda);
+                
                 if (maior || (iguais >= 2 && mesmaBorda)) {
                     tabuleiro.alterarDono(linha, coluna, atual);
 
@@ -252,7 +249,7 @@ public class Jogo {
         }
     }
 
-    // 0 = cima, 1 = baixo, 2 = esquerda, 3 = direita.
+    
     private int obterValor(Carta carta, int lado) {
         if (lado == 0) {
             return carta.getCima();
@@ -264,119 +261,7 @@ public class Jogo {
             return carta.getDireita();
         }
     }
-    public void testarSame() {
-        tabuleiro = new Tabuleiro();
-
-        Jogador p1 = new Jogador("Jogador 1");
-        Jogador p2 = new Jogador("Jogador 2");
-
-        // Carta adversária acima: borda inferior vale 5.
-        Carta acima = new Carta(0, 5, 0, 0);
-        tabuleiro.colocarCarta(0, 1, acima, p2);
-
-        // Carta adversária à direita: borda esquerda vale 4.
-        Carta direita = new Carta(0, 0, 4, 0);
-        tabuleiro.colocarCarta(1, 2, direita, p2);
-
-        // Carta nova: superior vale 5 e direita vale 4.
-        Carta nova = new Carta(5, 0, 0, 4);
-        tabuleiro.colocarCarta(1, 1, nova, p1);
-
-        capturarVizinhos(1, 1, p1, nova);
-
-        System.out.println("\nResultado do teste Same:");
-        tabuleiro.exibir();
-
-        System.out.println(
-            "Cartas do Jogador 1: "
-            + tabuleiro.contarCartasDoJogador(p1)
-        );
-
-        System.out.println(
-            "Cartas do Jogador 2: "
-            + tabuleiro.contarCartasDoJogador(p2)
-        );
-    }
-    public void testarSameComValorMaior() {
-        tabuleiro = new Tabuleiro();
-
-        Jogador p1 = new Jogador("Jogador 1");
-        Jogador p2 = new Jogador("Jogador 2");
-
-        // Carta adversária acima: valor inferior = 5.
-        Carta acima = new Carta(0, 5, 0, 0);
-        tabuleiro.colocarCarta(0, 1, acima, p2);
-
-        // Carta adversária à esquerda: valor direito = 2.
-        Carta esquerda = new Carta(0, 0, 0, 2);
-        tabuleiro.colocarCarta(1, 0, esquerda, p2);
-
-        // Carta adversária à direita: valor esquerdo = 4.
-        Carta direita = new Carta(0, 0, 4, 0);
-        tabuleiro.colocarCarta(1, 2, direita, p2);
-
-        // Carta nova: cima = 5, esquerda = 7 e direita = 4.
-        Carta nova = new Carta(5, 0, 0, 5);
-        tabuleiro.colocarCarta(1, 1, nova, p1);
-
-        capturarVizinhos(1, 1, p1, nova);
-
-        System.out.println("\nResultado do teste Same com valor maior:");
-        tabuleiro.exibir();
-
-        System.out.println(
-            "Cartas do Jogador 1: "
-            + tabuleiro.contarCartasDoJogador(p1)
-        );
-
-        System.out.println(
-            "Cartas do Jogador 2: "
-            + tabuleiro.contarCartasDoJogador(p2)
-        );
-
-        System.out.println(
-            "Pontuacao do Jogador 1: " + p1.getPontuacao()
-        );
-
-        System.out.println(
-            "Pontuacao do Jogador 2: " + p2.getPontuacao()
-        );
-    }
-    
-    public void testarSameComCartaNossa() {
-        tabuleiro = new Tabuleiro();
-
-        Jogador p1 = new Jogador("Jogador 1");
-        Jogador p2 = new Jogador("Jogador 2");
-
-        // Carta adversária acima: borda inferior vale 5
-        Carta acima = new Carta(0, 5, 0, 0);
-        tabuleiro.colocarCarta(0, 1, acima, p2);
-
-        // Nossa carta à esquerda: borda direita vale 5
-        Carta esquerda = new Carta(0, 0, 0, 5);
-        tabuleiro.colocarCarta(1, 0, esquerda, p1);
-
-        // Carta adversária à direita: borda esquerda vale 5
-        Carta direita = new Carta(0, 0, 5, 0);
-        tabuleiro.colocarCarta(1, 2, direita, p2);
-
-        // Nova carta no centro: cima 5 e esquerda 5
-        Carta nova = new Carta(5, 0, 5, 0);
-        tabuleiro.colocarCarta(1, 1, nova, p1);
-
-        capturarVizinhos(1, 1, p1, nova);
-
-        System.out.println("\nResultado do teste Same com carta nossa:");
-        tabuleiro.exibir();
-
-        System.out.println("Cartas do Jogador 1: "
-                + tabuleiro.contarCartasDoJogador(p1));
-
-        System.out.println("Cartas do Jogador 2: "
-                + tabuleiro.contarCartasDoJogador(p2));
-    }
-
+   
     private void mostrarResultado() {
         int casas1 = tabuleiro.contarCartasDoJogador(jogador1);
         int casas2 = tabuleiro.contarCartasDoJogador(jogador2);

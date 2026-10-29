@@ -64,12 +64,11 @@ public class Tabuleiro {
    
       
     public void exibir() {
-        System.out.println("\n========== TABULEIRO 1==========\n");
+        System.out.println("\n========== TABULEIRO ==========\n");
 
         for (int i = 0; i < 3; i++) {
             System.out.println("+---------+---------+---------+");
 
-            // 1ª LINHA: Dono e valor superior
             for (int j = 0; j < 3; j++) {
                 Carta carta = cartas[i][j];
 
@@ -93,7 +92,7 @@ public class Tabuleiro {
             }
             System.out.println("|");
 
-            // 2ª LINHA: Valores esquerdo e direito
+            
             for (int j = 0; j < 3; j++) {
                 Carta carta = cartas[i][j];
 
@@ -108,7 +107,7 @@ public class Tabuleiro {
             }
             System.out.println("|");
 
-            // 3ª LINHA: Valor inferior
+            
             for (int j = 0; j < 3; j++) {
                 Carta carta = cartas[i][j];
 
